@@ -9,12 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.4.2",
+    "@internationalized/date": "^3.5.4",
     "@nextui-org/react": "^2.4.1",
+    "@react-aria/i18n": "^3.11.1",
     "@typescript-eslint/eslint-plugin": "^7.11.0",
     "framer-motion": "^11.2.10",
+    "lucide-react": "^0.383.0",
     "next": "14.2.3",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-hook-form": "^7.51.5",
+    "sonner": "^1.4.41",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.2.3",
