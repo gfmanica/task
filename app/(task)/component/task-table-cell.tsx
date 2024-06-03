@@ -1,7 +1,9 @@
 import { Button, Chip, Tooltip, getKeyValue } from '@nextui-org/react';
 
-import { Eye, Trash, UserRoundPlus } from 'lucide-react';
+import { Eye, Pencil, Trash, UserRoundPlus } from 'lucide-react';
 import { TTask } from '../type';
+import { isoToLocalDateString } from '@/util/format';
+import { useRouter } from 'next/navigation';
 
 const statusColorMap = {
   WAITING: 'warning',
@@ -17,15 +19,16 @@ export function TaskTableCell({
   item: TTask;
   columnKey: string | number;
 }) {
+  const { push } = useRouter();
+
   switch (columnKey) {
     case 'expirationDate': {
-      return item.expirationDate.toLocaleDateString();
+      return isoToLocalDateString(item.expirationDate);
     }
 
     case 'status': {
       return (
         <Chip
-          className="capitalize"
           color={statusColorMap[item.status.id as keyof typeof statusColorMap]}
           size="sm"
           variant="flat"
@@ -47,6 +50,18 @@ export function TaskTableCell({
           <Tooltip content="Atribuir a um usuário">
             <Button variant="light" color="primary" size="sm" isIconOnly>
               <UserRoundPlus size={20} />
+            </Button>
+          </Tooltip>
+
+          <Tooltip content="Editar">
+            <Button
+              isIconOnly
+              size="sm"
+              variant="light"
+              color="primary"
+              onClick={() => push(`/form/${item.id}`)}
+            >
+              <Pencil size={20} />
             </Button>
           </Tooltip>
 

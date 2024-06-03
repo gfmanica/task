@@ -31,11 +31,11 @@ export function useFetch<TData>() {
             const { data, message } = responseData;
 
             if (response.ok) {
-              if (showToast) toast.success(message);
+              if (showToast && message) toast.success(message);
 
               resolve(data);
             } else {
-              if (showToast) toast.error(message);
+              if (showToast && message) toast.error(message);
 
               reject();
             }

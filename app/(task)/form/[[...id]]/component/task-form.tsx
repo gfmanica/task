@@ -8,11 +8,12 @@ import {
   AutocompleteItem,
   Button,
   DatePicker,
+  DateValue,
   Input,
   Textarea,
 } from '@nextui-org/react';
 import { I18nProvider } from '@react-aria/i18n';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 const status = [
   { id: 'WAITING', status: 'Aguardando' },
@@ -23,7 +24,7 @@ const status = [
 
 export function TaskForm({ id }: { id?: string }) {
   const { isMutating, onMutate } = useMutate<TTask>({
-    url: '/api/user',
+    url: '/api/task',
     idName: 'id',
     replaceRoute: true,
   });
@@ -34,13 +35,14 @@ export function TaskForm({ id }: { id?: string }) {
     watch,
     setValue,
     reset,
+    control,
     formState: { errors },
   } = useForm<TTask>({
     resolver: zodResolver(TaskScheme),
   });
 
   const { isQuerying } = useQuery<TTask>({
-    url: `/api/user/${id}`,
+    url: `/api/task/${id}`,
     enabled: Boolean(id),
     onSuccess: (data) => reset(data),
   });
@@ -50,71 +52,104 @@ export function TaskForm({ id }: { id?: string }) {
   return (
     <form onSubmit={handleSubmit(onMutate)} className="flex flex-col gap-2">
       <div className="flex flex-col gap-2 md:flex-row">
-        <Input
-          {...register('name')}
-          className="flex-2"
-          variant="bordered"
-          label="Nome"
-          isDisabled={disabled}
-          isInvalid={Boolean(errors.name)}
-          errorMessage={errors.name?.message}
+        <Controller
+          control={control}
+          name="name"
+          render={({ field }) => (
+            <Input
+              {...field}
+              className="flex-2"
+              variant="bordered"
+              label="Nome"
+              isDisabled={disabled}
+              isInvalid={Boolean(errors.name)}
+              errorMessage={errors.name?.message}
+            />
+          )}
         />
 
-        <I18nProvider locale="pt-BR">
-          <DatePicker
-            {...register('expirationDate')}
-            className="flex-1"
-            variant="bordered"
-            label="Data de expiração"
-            isDisabled={disabled}
-            isInvalid={Boolean(errors.expirationDate)}
-            errorMessage={errors.expirationDate?.message}
-            onChange={(date) => {
-              setValue('expirationDate', date.toDate('GMT-0') as Date);
-            }}
-          />
-        </I18nProvider>
+        <Controller
+          control={control}
+          name="status"
+          render={({ field: { value, onChange } }) => (
+            <Autocomplete
+              defaultItems={status}
+              isClearable={false}
+              label="Status"
+              variant="bordered"
+              className="max-w-xs"
+              isDisabled={disabled}
+              selectedKey={value?.id}
+              onSelectionChange={(id) => {
+                const newValue = status.find((item) => item.id === id);
 
-        <Autocomplete
-          defaultItems={status}
-          isClearable={false}
-          label="Status"
-          variant="bordered"
-          className="max-w-xs"
-          isDisabled={disabled}
-          selectedKey={watch('status')?.id}
-          onSelectionChange={(id) => {
-            const newValue = status.find((item) => item.id === id);
-
-            if (newValue) {
-              setValue('status', newValue);
-            }
-          }}
-          isInvalid={Boolean(errors.status)}
-          errorMessage={errors.status?.message}
-        >
-          {(status) => (
-            <AutocompleteItem key={status.id}>{status.status}</AutocompleteItem>
+                if (newValue) {
+                  onChange(newValue);
+                }
+              }}
+              isInvalid={Boolean(errors.status)}
+              errorMessage={errors.status?.message}
+            >
+              {(status) => (
+                <AutocompleteItem key={status.id}>
+                  {status.status}
+                </AutocompleteItem>
+              )}
+            </Autocomplete>
           )}
-        </Autocomplete>
+        />
+
+        <Controller
+          control={control}
+          name="expirationDate"
+          render={({ field: { onChange, value } }) => (
+            <I18nProvider locale="pt-BR">
+              <DatePicker
+                value={new Date(value) as unknown as DateValue}
+                className="flex-1"
+                variant="bordered"
+                label="Data de expiração"
+                isDisabled={disabled}
+                isInvalid={Boolean(errors.expirationDate)}
+                errorMessage={errors.expirationDate?.message}
+                onChange={(date) => {
+                  debugger;
+                  onChange(date.toDate('GMT-0') as Date);
+                }}
+              />
+            </I18nProvider>
+          )}
+        />
       </div>
 
-      <Input
-        {...register('link')}
-        variant="bordered"
-        label="Link do artefato"
-        isDisabled={disabled}
-        isInvalid={Boolean(errors.link)}
-        errorMessage={errors.link?.message}
+      <Controller
+        control={control}
+        name="link"
+        render={({ field }) => (
+          <Input
+            {...field}
+            variant="bordered"
+            label="Link do artefato"
+            isDisabled={disabled}
+            isInvalid={Boolean(errors.link)}
+            errorMessage={errors.link?.message}
+          />
+        )}
       />
 
-      <Textarea
-        {...register('description')}
-        variant="bordered"
-        label="Descrição"
-        isDisabled={disabled}
-        isInvalid={Boolean(errors.description)}
-        errorMessage={errors.description?.message}
+      <Controller
+        control={control}
+        name="description"
+        render={({ field }) => (
+          <Textarea
+            {...field}
+            variant="bordered"
+            label="Descrição"
+            isDisabled={disabled}
+            isInvalid={Boolean(errors.description)}
+            errorMessage={errors.description?.message}
+          />
+        )}
       />
 
       <div className="flex justify-end">

@@ -12,7 +12,7 @@ type TMutate<TData> = {
 
 export function useMutate<TData>({
   url,
-  replaceRoute,
+  replaceRoute = false,
   idName,
   onSuccess = () => {},
 }: TMutate<TData>) {

@@ -1,6 +1,6 @@
 export type TRole = {
   id: 'ADMINISTRATOR' | 'USER';
-  name: string;
+  role: string;
 };
 
 export type TUser = {

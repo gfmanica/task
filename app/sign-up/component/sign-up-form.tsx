@@ -7,9 +7,16 @@ import { useForm } from 'react-hook-form';
 import { SignUpScheme, TSignUp } from '../type';
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export function SignUpForm() {
-  const { isMutating, onMutate } = useMutate<TSignUp>({ url: '/api/user' });
+  const { push } = useRouter();
+
+  const { isMutating, onMutate } = useMutate<TSignUp>({
+    url: '/api/user',
+    onSuccess: () => push('/sign-in'),
+  });
+
   const [isVisibleConfirm, setIsVisibleConfirm] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
