@@ -4,3 +4,10 @@ export const statusNameMap = {
   DONE: 'Concluído',
   CANCELED: 'Cancelado',
 } as const;
+
+export const statusColorMap = {
+  WAITING: 'warning',
+  IN_PROGRESS: 'primary',
+  DONE: 'success',
+  CANCELED: 'danger',
+} as const;

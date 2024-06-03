@@ -20,10 +20,6 @@ const columns = [
     label: 'Nome',
   },
   {
-    key: 'expirationDate',
-    label: 'Data de expiração',
-  },
-  {
     key: 'status',
     label: 'Status',
   },
@@ -35,7 +31,7 @@ const columns = [
 
 export function TaskTable() {
   const [rows, setRows] = useState<TTask[]>([]);
-  const { isQuerying } = useQuery<TTask[]>({
+  const { isQuerying, onQuery } = useQuery<TTask[]>({
     url: `/api/task`,
     onSuccess: (data) => setRows(data),
   });
@@ -56,7 +52,11 @@ export function TaskTable() {
           <TableRow key={item.id}>
             {(columnKey) => (
               <TableCell>
-                <TaskTableCell item={item} columnKey={columnKey} />
+                <TaskTableCell
+                  item={item}
+                  columnKey={columnKey}
+                  onQuery={onQuery}
+                />
               </TableCell>
             )}
           </TableRow>

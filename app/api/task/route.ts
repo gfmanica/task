@@ -4,14 +4,13 @@ import { statusNameMap } from '@/util/enum';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, description, expirationDate, link, status } = body;
+    const { name, description, link, status } = body;
 
     const user = await prisma.task.create({
       data: {
         name,
         link,
         description,
-        expirationDate,
         status: status.id,
       },
     });

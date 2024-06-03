@@ -7,12 +7,10 @@ import {
   Autocomplete,
   AutocompleteItem,
   Button,
-  DatePicker,
-  DateValue,
   Input,
   Textarea,
 } from '@nextui-org/react';
-import { I18nProvider } from '@react-aria/i18n';
+import { Save } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
 
 const status = [
@@ -98,28 +96,6 @@ export function TaskForm({ id }: { id?: string }) {
             </Autocomplete>
           )}
         />
-
-        <Controller
-          control={control}
-          name="expirationDate"
-          render={({ field: { onChange, value } }) => (
-            <I18nProvider locale="pt-BR">
-              <DatePicker
-                value={new Date(value) as unknown as DateValue}
-                className="flex-1"
-                variant="bordered"
-                label="Data de expiração"
-                isDisabled={disabled}
-                isInvalid={Boolean(errors.expirationDate)}
-                errorMessage={errors.expirationDate?.message}
-                onChange={(date) => {
-                  debugger;
-                  onChange(date.toDate('GMT-0') as Date);
-                }}
-              />
-            </I18nProvider>
-          )}
-        />
       </div>
 
       <Controller
@@ -153,7 +129,13 @@ export function TaskForm({ id }: { id?: string }) {
       />
 
       <div className="flex justify-end">
-        <Button type="submit" color="primary" isLoading={disabled}>
+        <Button
+          type="submit"
+          color="primary"
+          variant="shadow"
+          isLoading={disabled}
+          startContent={<Save size={20} />}
+        >
           Salvar
         </Button>
       </div>

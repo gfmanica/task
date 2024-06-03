@@ -10,6 +10,7 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
 } from '@nextui-org/react';
+import { LogOut } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
@@ -76,7 +77,11 @@ export default function Header() {
 
       <NavbarContent justify="end">
         <NavbarItem>
-          <Button color="danger" variant="light">
+          <Button
+            color="danger"
+            variant="light"
+            startContent={<LogOut size={20} />}
+          >
             Sair
           </Button>
         </NavbarItem>

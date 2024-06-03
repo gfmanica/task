@@ -10,11 +10,16 @@ export default function TaskPage() {
 
   return (
     <>
-      <div className="flex items-center justify-between">
+      <div className="flex items-start justify-between">
         <div className="text-3xl font-bold">Atividades</div>
 
-        <Button color="primary" variant="shadow" onClick={() => push('/form')}>
-          <Plus /> Novo
+        <Button
+          color="primary"
+          variant="shadow"
+          onClick={() => push('/form')}
+          startContent={<Plus size={20} />}
+        >
+          Novo
         </Button>
       </div>
 

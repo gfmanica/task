@@ -6,7 +6,7 @@ import { Button, Input } from '@nextui-org/react';
 import { useForm } from 'react-hook-form';
 import { SignUpScheme, TSignUp } from '../type';
 import { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Save } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export function SignUpForm() {
@@ -83,7 +83,13 @@ export function SignUpForm() {
         }
       />
 
-      <Button type="submit" color="primary" isLoading={isMutating}>
+      <Button
+        type="submit"
+        color="primary"
+        variant="shadow"
+        isLoading={isMutating}
+        startContent={<Save size={20} />}
+      >
         Salvar
       </Button>
     </form>

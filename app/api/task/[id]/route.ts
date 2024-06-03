@@ -57,22 +57,25 @@ export async function PUT(
   try {
     const { id } = params;
     const body = await request.json();
-    const { role } = body;
+    const { name, description, link, status } = body;
 
-    const user = await prisma.user.update({
+    const task = await prisma.task.update({
       where: { id: Number(id) },
       data: {
-        role: role.id,
+        name,
+        link,
+        description,
+        status: status.id,
       },
     });
 
     return Response.json(
-      { data: user, message: `Usuário ${user.name} atualizado com sucesso!` },
+      { data: task, message: `Atividade ${task.name} atualizada com sucesso!` },
       { status: 200 },
     );
   } catch {
     return Response.json(
-      { data: null, message: 'Falha ao atualizar usuário' },
+      { data: null, message: 'Falha ao atualizar atividade' },
       { status: 400 },
     );
   }

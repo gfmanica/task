@@ -5,10 +5,8 @@ export default function TaskFormPage({ params }: { params: { id: string[] } }) {
 
   return (
     <>
-      <div>
-        <div className="text-3xl font-bold">
-          {id ? 'Editar' : 'Cadastrar'} Atividade
-        </div>
+      <div className="text-3xl font-bold">
+        {id ? 'Editar' : 'Cadastrar'} atividade
       </div>
 
       <TaskForm id={id} />
