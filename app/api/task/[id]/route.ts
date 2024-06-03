@@ -1,3 +1,4 @@
+import { TUser } from '@/app/user/type';
 import prisma from '@/lib/prisma';
 import { statusNameMap } from '@/util/enum';
 
@@ -10,6 +11,15 @@ export async function GET(
 
     const task = await prisma.task.findUniqueOrThrow({
       where: { id: Number(id) },
+      include: {
+        users: {
+          select: {
+            id: true,
+            name: true,
+            role: true,
+          },
+        },
+      },
     });
 
     const newTask = {
@@ -18,6 +28,13 @@ export async function GET(
         id: task.status,
         status: statusNameMap[task.status],
       },
+      users: task.users.map((user) => ({
+        ...user,
+        role: {
+          id: user.role,
+          role: user.role === 'ADMINISTRATOR' ? 'Administrador' : 'Usuário',
+        },
+      })),
     };
 
     return Response.json({ data: newTask }, { status: 200 });
@@ -57,7 +74,7 @@ export async function PUT(
   try {
     const { id } = params;
     const body = await request.json();
-    const { name, description, link, status } = body;
+    const { name, description, link, status, users } = body;
 
     const task = await prisma.task.update({
       where: { id: Number(id) },
@@ -66,6 +83,11 @@ export async function PUT(
         link,
         description,
         status: status.id,
+        users: {
+          set: users.map((user: TUser) => ({
+            id: user.id,
+          })),
+        },
       },
     });
 

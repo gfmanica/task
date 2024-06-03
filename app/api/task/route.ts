@@ -1,10 +1,11 @@
+import { TUser } from '@/app/user/type';
 import prisma from '@/lib/prisma';
 import { statusNameMap } from '@/util/enum';
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, description, link, status } = body;
+    const { name, description, link, status, users } = body;
 
     const user = await prisma.task.create({
       data: {
@@ -12,6 +13,11 @@ export async function POST(request: Request) {
         link,
         description,
         status: status.id,
+        users: {
+          connect: users.map((user: TUser) => ({
+            id: user.id,
+          })),
+        },
       },
     });
 
@@ -29,7 +35,17 @@ export async function POST(request: Request) {
 
 export async function GET() {
   try {
-    const task = await prisma.task.findMany();
+    const task = await prisma.task.findMany({
+      include: {
+        users: {
+          select: {
+            id: true,
+            name: true,
+            role: true,
+          },
+        },
+      },
+    });
 
     const newTask = task.map((task) => ({
       ...task,
@@ -37,6 +53,13 @@ export async function GET() {
         id: task.status,
         status: statusNameMap[task.status],
       },
+      users: task.users.map((user) => ({
+        ...user,
+        role: {
+          id: user.role,
+          role: user.role === 'ADMINISTRATOR' ? 'Administrador' : 'Usuário',
+        },
+      })),
     }));
 
     return Response.json({ data: newTask }, { status: 200 });
