@@ -1,5 +1,6 @@
 'use client';
 
+import { TTask, TaskScheme } from '@/app/(task)/type';
 import { useMutate, useQuery } from '@/hook';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -12,24 +13,6 @@ import {
 } from '@nextui-org/react';
 import { I18nProvider } from '@react-aria/i18n';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-const TaskScheme = z.object({
-  id: z.number().nullish(),
-  name: z.string().min(1, { message: 'Nome é obrigatório' }),
-  description: z.string().min(1, { message: 'Descrição é obrigatória' }),
-  link: z.string().url({ message: 'Link inválido' }).nullable(),
-  expirationDate: z.date({ message: 'Data de expiração é obrigatória' }),
-  status: z.object(
-    {
-      id: z.string(),
-      status: z.string(),
-    },
-    { message: 'Status é obrigatório' },
-  ),
-});
-
-type TTask = z.infer<typeof TaskScheme>;
 
 const status = [
   { id: 'WAITING', status: 'Aguardando' },

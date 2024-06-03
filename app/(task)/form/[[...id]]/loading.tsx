@@ -1,9 +1,5 @@
-import { CircularProgress } from '@nextui-org/react';
+import Loading from '@/component/loading';
 
-export default function Loading() {
-  return (
-    <div className="flex flex-1 justify-center align-middle">
-      <CircularProgress aria-label="Loading..." />
-    </div>
-  );
+export default function LoadingPage() {
+  return <Loading />;
 }

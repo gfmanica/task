@@ -8,33 +8,25 @@ import {
   TableHeader,
   TableRow,
 } from '@nextui-org/react';
-import { TTask } from './type';
-import TaskTableCell from './task-table-cell';
+import { TUser } from './type';
+import UserTableCell from './user-table-cell';
 
-const rows: TTask[] = [
+const rows: TUser[] = [
   {
     id: 1,
-    name: 'Task 1',
-    expirationDate: new Date(),
-    status: 'WAITING',
+    name: 'Alice',
+    role: {
+      id: 'ADMINISTRATOR',
+      name: 'Admin',
+    },
   },
   {
     id: 2,
-    name: 'Task 2',
-    expirationDate: new Date(),
-    status: 'IN_PROGRESS',
-  },
-  {
-    id: 3,
-    name: 'Task 3',
-    expirationDate: new Date(),
-    status: 'DONE',
-  },
-  {
-    id: 4,
-    name: 'Task 4',
-    expirationDate: new Date(),
-    status: 'CANCELED',
+    name: 'Bob',
+    role: {
+      id: 'USER',
+      name: 'User',
+    },
   },
 ];
 
@@ -44,12 +36,8 @@ const columns = [
     label: 'Nome',
   },
   {
-    key: 'expirationDate',
-    label: 'Data de expiração',
-  },
-  {
-    key: 'status',
-    label: 'Status',
+    key: 'role',
+    label: 'Papel',
   },
   {
     key: 'action',
@@ -57,7 +45,7 @@ const columns = [
   },
 ];
 
-export default function TaskTable() {
+export default function UserTable() {
   return (
     <Table isStriped>
       <TableHeader columns={columns}>
@@ -69,7 +57,7 @@ export default function TaskTable() {
           <TableRow key={item.id}>
             {(columnKey) => (
               <TableCell>
-                <TaskTableCell item={item} columnKey={columnKey} />
+                <UserTableCell item={item} columnKey={columnKey} />
               </TableCell>
             )}
           </TableRow>

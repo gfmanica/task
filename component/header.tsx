@@ -10,6 +10,7 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
 } from '@nextui-org/react';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
 type TMenuItem = {
@@ -37,13 +38,19 @@ const menuItems: TMenuItem[] = [
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isInvalidRoute = ['/sign-in', '/sign-up'].includes(pathname);
+
+  if (isInvalidRoute) {
+    return null;
+  }
 
   return (
     <Navbar onMenuOpenChange={setIsMenuOpen} isBordered>
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-          className="sm:hidden"
+          className="hidden"
         />
 
         <NavbarItem>
@@ -53,7 +60,7 @@ export default function Header() {
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarContent className="hidden gap-4 sm:flex" justify="center">
+      <NavbarContent justify="center">
         <NavbarItem>
           <Link color="foreground" href="/">
             Atividades

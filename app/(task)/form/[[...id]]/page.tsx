@@ -1,4 +1,4 @@
-import { TaskForm } from './task-form';
+import { TaskForm } from './component';
 
 export default function TaskFormPage({ params }: { params: { id: string[] } }) {
   const id = params?.id?.at(0);

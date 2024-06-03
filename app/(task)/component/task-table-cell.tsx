@@ -1,13 +1,7 @@
-import { TTask } from './type';
-
-import {
-  Button,
-  Chip,
-  Tooltip,
-  getKeyValue,
-} from '@nextui-org/react';
+import { Button, Chip, Tooltip, getKeyValue } from '@nextui-org/react';
 
 import { Eye, Trash, UserRoundPlus } from 'lucide-react';
+import { TTask } from '../type';
 
 const statusColorMap = {
   WAITING: 'warning',
@@ -16,14 +10,7 @@ const statusColorMap = {
   CANCELED: 'danger',
 } as const;
 
-const statusLabelMap = {
-  WAITING: 'Aguardando',
-  IN_PROGRESS: 'Em andamento',
-  DONE: 'Concluído',
-  CANCELED: 'Cancelado',
-} as const;
-
-export default function TaskTableCell({
+export function TaskTableCell({
   item,
   columnKey,
 }: {
@@ -39,11 +26,11 @@ export default function TaskTableCell({
       return (
         <Chip
           className="capitalize"
-          color={statusColorMap[item.status]}
+          color={statusColorMap[item.status.id as keyof typeof statusColorMap]}
           size="sm"
           variant="flat"
         >
-          {statusLabelMap[item.status]}
+          {item.status.status}
         </Chip>
       );
     }
