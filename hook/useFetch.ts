@@ -35,7 +35,7 @@ export function useFetch<TData>() {
 
               resolve(data);
             } else {
-              if (showToast && message) toast.error(message);
+              if (message) toast.error(message);
 
               reject();
             }
@@ -44,7 +44,7 @@ export function useFetch<TData>() {
         .catch(() => {
           const message = 'Falha ao realizar a requisição';
 
-          if (showToast) toast.error(message);
+          toast.error(message);
 
           reject();
         })

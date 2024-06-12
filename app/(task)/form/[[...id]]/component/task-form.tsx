@@ -28,10 +28,7 @@ export function TaskForm({ id }: { id?: string }) {
   });
 
   const {
-    register,
     handleSubmit,
-    watch,
-    setValue,
     reset,
     control,
     formState: { errors },
@@ -75,7 +72,38 @@ export function TaskForm({ id }: { id?: string }) {
               isClearable={false}
               label="Status"
               variant="bordered"
-              className="max-w-xs"
+              className="w-full"
+              isDisabled={disabled}
+              selectedKey={value?.id}
+              onSelectionChange={(id) => {
+                const newValue = status.find((item) => item.id === id);
+
+                if (newValue) {
+                  onChange(newValue);
+                }
+              }}
+              isInvalid={Boolean(errors.status)}
+              errorMessage={errors.status?.message}
+            >
+              {(status) => (
+                <AutocompleteItem key={status.id}>
+                  {status.status}
+                </AutocompleteItem>
+              )}
+            </Autocomplete>
+          )}
+        />
+
+        <Controller
+          control={control}
+          name="status"
+          render={({ field: { value, onChange } }) => (
+            <Autocomplete
+              defaultItems={status}
+              isClearable={false}
+              label="Status"
+              variant="bordered"
+              className="w-full"
               isDisabled={disabled}
               selectedKey={value?.id}
               onSelectionChange={(id) => {

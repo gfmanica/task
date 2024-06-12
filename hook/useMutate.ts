@@ -12,8 +12,8 @@ type TMutate<TData> = {
 
 export function useMutate<TData>({
   url,
-  replaceRoute = false,
   idName,
+  replaceRoute = false,
   onSuccess = () => {},
 }: TMutate<TData>) {
   const { replace } = useRouter();
