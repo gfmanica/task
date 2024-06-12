@@ -28,6 +28,7 @@ export async function GET() {
   try {
     const user = await prisma.user.findMany();
 
+
     const newUser = user.map((user) => ({
       ...user,
       role: {

@@ -12,18 +12,18 @@ export const TaskScheme = z.object({
     },
     { message: 'Status é obrigatório' },
   ),
-  users: z
-    .array(
-      z.object({
-        id: z.number(),
-        name: z.string(),
-        role: z.object({
-          id: z.string(),
-          role: z.string(),
-        }),
-      }),
-    )
-    .min(1, { message: 'Usuários é obrigatório' }),
+  // users: z
+  //   .array(
+  //     z.object({
+  //       id: z.number(),
+  //       name: z.string(),
+  //       role: z.object({
+  //         id: z.string(),
+  //         role: z.string(),
+  //       }),
+  //     }),
+  //   )
+  //   .min(1, { message: 'Usuários é obrigatório' }),
 });
 
 export type TTask = z.infer<typeof TaskScheme>;

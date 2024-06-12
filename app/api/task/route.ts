@@ -7,14 +7,14 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { name, description, link, status, users } = body;
 
-    const user = await prisma.task.create({
+    const task = await prisma.task.create({
       data: {
         name,
         link,
         description,
         status: status.id,
         users: {
-          connect: users.map((user: TUser) => ({
+          connect: users?.map((user: TUser) => ({
             id: user.id,
           })),
         },
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     });
 
     return Response.json(
-      { data: user, message: `Atividade ${user.name} criada com sucesso!` },
+      { data: task, message: `Atividade ${task.name} criada com sucesso!` },
       { status: 200 },
     );
   } catch {

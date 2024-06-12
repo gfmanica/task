@@ -84,7 +84,7 @@ export async function PUT(
         description,
         status: status.id,
         users: {
-          set: users.map((user: TUser) => ({
+          set: users?.map((user: TUser) => ({
             id: user.id,
           })),
         },
