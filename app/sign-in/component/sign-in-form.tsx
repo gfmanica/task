@@ -8,14 +8,17 @@ import { SignInScheme, TSignIn } from '../type';
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { cookies } from 'next/headers';
 
 export function SignInForm() {
-  const { push } = useRouter();
+  const { push, refresh } = useRouter();
 
   const { isMutating, onMutate } = useMutate<TSignIn>({
     url: '/api/sign-in',
-    onSuccess: () => push('/'),
+    onSuccess: () => {
+      push('/');
+
+      refresh();
+    },
   });
 
   const [isVisible, setIsVisible] = useState(false);

@@ -38,8 +38,6 @@ export function TaskTable() {
     onSuccess: (data) => setRows(data),
   });
 
-  console.log(session);
-
   return (
     <Table isStriped>
       <TableHeader columns={columns}>
