@@ -11,10 +11,10 @@ export default async function middleware(request: NextRequest) {
   if (isProtectedPath) {
     // 2 - Verificar se o usuário está autenticado
     const cookie = cookies().get('session')?.value;
-    const session = await decrypt(cookie);
+    const session = await decrypt(cookie); 
 
     // 3 - Redireciona usuários não autenticados
-    if (!session?.userId) {
+    if (!session?.user) {
       return NextResponse.redirect(new URL('/sign-in', request.nextUrl));
     }
   }

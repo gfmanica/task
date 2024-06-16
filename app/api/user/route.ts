@@ -27,8 +27,6 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    await createSession(user.id);
-
     return NextResponse.json(
       { data: user, message: `Usuário ${user.name} criado com sucesso!` },
       { status: 200 },

@@ -1,5 +1,5 @@
 import prisma from '@/lib/prisma';
-import { createSession } from '@/lib/session';
+import { createSession, deleteSession } from '@/lib/session';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    await createSession(user.id);
+    await createSession(user);
 
     return NextResponse.json({ data: user, message: '' }, { status: 200 });
   } catch {

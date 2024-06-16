@@ -3,6 +3,8 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 import Header from '@/component/header';
 import Providers from '@/provider';
+import { cookies } from 'next/headers';
+import { decrypt } from '@/lib/session';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -10,15 +12,18 @@ export const metadata: Metadata = {
   title: 'Atividades',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookie = cookies().get('session')?.value;
+  const session = await decrypt(cookie);
+
   return (
     <html lang="pt-br">
       <body className={`${inter.className}`}>
-        <Providers>
+        <Providers session={session}>
           <div className="flex min-h-dvh w-full flex-col">
             <Header />
 

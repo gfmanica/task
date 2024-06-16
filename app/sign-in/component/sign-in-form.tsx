@@ -7,9 +7,17 @@ import { useForm } from 'react-hook-form';
 import { SignInScheme, TSignIn } from '../type';
 import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { cookies } from 'next/headers';
 
 export function SignInForm() {
-  const { isMutating, onMutate } = useMutate<TSignIn>({ url: '/api/user' });
+  const { push } = useRouter();
+
+  const { isMutating, onMutate } = useMutate<TSignIn>({
+    url: '/api/sign-in',
+    onSuccess: () => push('/'),
+  });
+
   const [isVisible, setIsVisible] = useState(false);
 
   const {
