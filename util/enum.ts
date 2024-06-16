@@ -11,3 +11,8 @@ export const statusColorMap = {
   DONE: 'success',
   CANCELED: 'danger',
 } as const;
+
+export const roleColorMap = {
+  ADMINISTRATOR: 'primary',
+  USER: 'success',
+} as const;

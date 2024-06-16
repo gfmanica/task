@@ -25,7 +25,7 @@ export function useFetch<TData>() {
     setIsFetching(true);
 
     return new Promise((resolve, reject) => {
-      fetch(url, { method, body, headers })
+      fetch(url, { method, body, headers, cache: 'no-store' })
         .then((response) =>
           response.json().then((responseData: TResponse<TData>) => {
             const { data, message } = responseData;

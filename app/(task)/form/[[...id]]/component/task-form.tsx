@@ -12,6 +12,7 @@ import {
 } from '@nextui-org/react';
 import { Save } from 'lucide-react';
 import { Controller, useForm } from 'react-hook-form';
+import { TaskUserTable } from './task-user-table';
 
 const status = [
   { id: 'WAITING', status: 'Aguardando' },
@@ -31,6 +32,8 @@ export function TaskForm({ id }: { id?: string }) {
     handleSubmit,
     reset,
     control,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<TTask>({
     resolver: zodResolver(TaskScheme),
@@ -75,6 +78,9 @@ export function TaskForm({ id }: { id?: string }) {
               className="w-full"
               isDisabled={disabled}
               selectedKey={value?.id}
+              isInvalid={Boolean(errors.status)}
+              errorMessage={errors.status?.message}
+              
               onSelectionChange={(id) => {
                 const newValue = status.find((item) => item.id === id);
 
@@ -82,39 +88,6 @@ export function TaskForm({ id }: { id?: string }) {
                   onChange(newValue);
                 }
               }}
-              isInvalid={Boolean(errors.status)}
-              errorMessage={errors.status?.message}
-            >
-              {(status) => (
-                <AutocompleteItem key={status.id}>
-                  {status.status}
-                </AutocompleteItem>
-              )}
-            </Autocomplete>
-          )}
-        />
-
-        <Controller
-          control={control}
-          name="status"
-          render={({ field: { value, onChange } }) => (
-            <Autocomplete
-              defaultItems={status}
-              isClearable={false}
-              label="Status"
-              variant="bordered"
-              className="w-full"
-              isDisabled={disabled}
-              selectedKey={value?.id}
-              onSelectionChange={(id) => {
-                const newValue = status.find((item) => item.id === id);
-
-                if (newValue) {
-                  onChange(newValue);
-                }
-              }}
-              isInvalid={Boolean(errors.status)}
-              errorMessage={errors.status?.message}
             >
               {(status) => (
                 <AutocompleteItem key={status.id}>
@@ -156,7 +129,15 @@ export function TaskForm({ id }: { id?: string }) {
         )}
       />
 
-      <div className="flex justify-end">
+      <div className="mt-4 text-xl font-bold">Usuários</div>
+
+      <TaskUserTable
+        setValue={setValue}
+        watch={watch}
+        isLoadingForm={isQuerying}
+      />
+
+      <div className="mt-4 flex justify-end">
         <Button
           type="submit"
           color="primary"

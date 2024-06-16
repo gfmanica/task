@@ -1,5 +1,14 @@
 import { z } from 'zod';
 
+export const TaskUserScheme = z.object({
+  id: z.number(),
+  name: z.string(),
+  role: z.object({
+    id: z.string(),
+    role: z.string(),
+  }),
+});
+
 export const TaskScheme = z.object({
   id: z.number().nullish(),
   name: z.string().min(1, { message: 'Nome é obrigatório' }),
@@ -12,18 +21,9 @@ export const TaskScheme = z.object({
     },
     { message: 'Status é obrigatório' },
   ),
-  // users: z
-  //   .array(
-  //     z.object({
-  //       id: z.number(),
-  //       name: z.string(),
-  //       role: z.object({
-  //         id: z.string(),
-  //         role: z.string(),
-  //       }),
-  //     }),
-  //   )
-  //   .min(1, { message: 'Usuários é obrigatório' }),
+  users: z.array(TaskUserScheme).min(1, { message: 'Usuários é obrigatório' }),
 });
+
+export type TTaskUser = z.infer<typeof TaskUserScheme>;
 
 export type TTask = z.infer<typeof TaskScheme>;

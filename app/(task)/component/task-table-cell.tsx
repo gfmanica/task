@@ -11,6 +11,7 @@ import { TTask } from '../type';
 import { useRouter } from 'next/navigation';
 import { TaskDeleteModal } from './task-delete-modal';
 import { statusColorMap } from '@/util/enum';
+import { TaskUserModal } from './task-user-modal';
 
 type TTaskTableCell = {
   item: TTask;
@@ -26,6 +27,13 @@ export function TaskTableCell({ item, columnKey, onQuery }: TTaskTableCell) {
     onOpen: onOpenDelete,
     onClose: onCloseDelete,
     onOpenChange: onOpenChangeDelete,
+  } = useDisclosure();
+
+  const {
+    isOpen: isOpenUser,
+    onOpen: onOpenUser,
+    onClose: onCloseUser,
+    onOpenChange: onOpenChangeUser,
   } = useDisclosure();
 
   switch (columnKey) {
@@ -52,6 +60,14 @@ export function TaskTableCell({ item, columnKey, onQuery }: TTaskTableCell) {
             onOpenChange={onOpenChangeDelete}
           />
 
+          <TaskUserModal
+            task={item}
+            onQuery={onQuery}
+            onClose={onCloseUser}
+            isOpen={isOpenUser}
+            onOpenChange={onOpenChangeUser}
+          />
+
           <div className="flex gap-2">
             <Tooltip content="Visualizar">
               <Button
@@ -66,7 +82,13 @@ export function TaskTableCell({ item, columnKey, onQuery }: TTaskTableCell) {
             </Tooltip>
 
             <Tooltip content="Atribuir a um usuário">
-              <Button variant="light" color="primary" size="sm" isIconOnly>
+              <Button
+                isIconOnly
+                size="sm"
+                color="primary"
+                variant="light"
+                onClick={onOpenUser}
+              >
                 <UserRoundPlus size={20} />
               </Button>
             </Tooltip>

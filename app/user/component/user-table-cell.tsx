@@ -8,15 +8,11 @@ import {
   useDisclosure,
 } from '@nextui-org/react';
 
-import { Eye, Trash, UserRoundCog, UserRoundPlus } from 'lucide-react';
+import { Eye, Trash, UserRoundCog } from 'lucide-react';
 import { TUser } from '../type';
 import { UserDeleteModal } from './user-delete-modal';
 import { UserRoleModal } from './user-role-modal';
-
-const roleColorMap = {
-  ADMINISTRATOR: 'primary',
-  USER: 'success',
-} as const;
+import { roleColorMap } from '@/util/enum';
 
 type TUserTableCell = {
   item: TUser;
