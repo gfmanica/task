@@ -1,9 +1,10 @@
 import { TUser } from '@/app/user/type';
 import prisma from '@/lib/prisma';
 import { statusNameMap } from '@/util/enum';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { id: string } },
 ) {
   try {
@@ -37,9 +38,9 @@ export async function GET(
       })),
     };
 
-    return Response.json({ data: newTask }, { status: 200 });
+    return NextResponse.json({ data: newTask }, { status: 200 });
   } catch {
-    return Response.json(
+    return NextResponse.json(
       { data: null, message: 'Falha ao excluir atividade' },
       { status: 400 },
     );
@@ -47,7 +48,7 @@ export async function GET(
 }
 
 export async function DELETE(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { id: string } },
 ) {
   try {
@@ -55,12 +56,12 @@ export async function DELETE(
 
     const user = await prisma.task.delete({ where: { id: Number(id) } });
 
-    return Response.json(
+    return NextResponse.json(
       { data: user, message: `Atividade ${user.name} excluída com sucesso!` },
       { status: 200 },
     );
   } catch {
-    return Response.json(
+    return NextResponse.json(
       { data: null, message: 'Falha ao excluir atividade' },
       { status: 400 },
     );
@@ -68,7 +69,7 @@ export async function DELETE(
 }
 
 export async function PUT(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { id: string } },
 ) {
   try {
@@ -91,12 +92,12 @@ export async function PUT(
       },
     });
 
-    return Response.json(
+    return NextResponse.json(
       { data: task, message: `Atividade ${task.name} atualizada com sucesso!` },
       { status: 200 },
     );
   } catch {
-    return Response.json(
+    return NextResponse.json(
       { data: null, message: 'Falha ao atualizar atividade' },
       { status: 400 },
     );

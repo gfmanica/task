@@ -1,7 +1,8 @@
 import prisma from '@/lib/prisma';
+import { NextRequest, NextResponse } from 'next/server';
 
 export async function DELETE(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { id: string } },
 ) {
   try {
@@ -9,12 +10,12 @@ export async function DELETE(
 
     const user = await prisma.user.delete({ where: { id: Number(id) } });
 
-    return Response.json(
+    return NextResponse.json(
       { data: user, message: `Usuário ${user.name} excluído com sucesso!` },
       { status: 200 },
     );
   } catch {
-    return Response.json(
+    return NextResponse.json(
       { data: null, message: 'Falha ao excluir usuário' },
       { status: 400 },
     );
@@ -22,7 +23,7 @@ export async function DELETE(
 }
 
 export async function PUT(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { id: string } },
 ) {
   try {
@@ -37,12 +38,12 @@ export async function PUT(
       },
     });
 
-    return Response.json(
+    return NextResponse.json(
       { data: user, message: `Usuário ${user.name} atualizado com sucesso!` },
       { status: 200 },
     );
   } catch {
-    return Response.json(
+    return NextResponse.json(
       { data: null, message: 'Falha ao atualizar usuário' },
       { status: 400 },
     );

@@ -1,9 +1,24 @@
 import prisma from '@/lib/prisma';
+import { createSession } from '@/lib/session';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { name, password } = body;
+
+    const userExists = await prisma.user.findFirst({
+      where: {
+        name,
+      },
+    });
+
+    if (userExists) {
+      return NextResponse.json(
+        { data: null, message: 'Usuário já cadastrado' },
+        { status: 400 },
+      );
+    }
 
     const user = await prisma.user.create({
       data: {
@@ -12,12 +27,14 @@ export async function POST(request: Request) {
       },
     });
 
-    return Response.json(
+    await createSession(user.id);
+
+    return NextResponse.json(
       { data: user, message: `Usuário ${user.name} criado com sucesso!` },
       { status: 200 },
     );
   } catch {
-    return Response.json(
+    return NextResponse.json(
       { data: null, message: 'Falha ao cadastrar usuário' },
       { status: 400 },
     );
@@ -28,7 +45,6 @@ export async function GET() {
   try {
     const user = await prisma.user.findMany();
 
-
     const newUser = user.map((user) => ({
       ...user,
       role: {
@@ -37,9 +53,9 @@ export async function GET() {
       },
     }));
 
-    return Response.json({ data: newUser }, { status: 200 });
+    return NextResponse.json({ data: newUser }, { status: 200 });
   } catch {
-    return Response.json(
+    return NextResponse.json(
       { data: null, message: 'Falha ao consultar usuários' },
       { status: 400 },
     );

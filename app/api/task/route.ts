@@ -1,8 +1,9 @@
 import { TUser } from '@/app/user/type';
 import prisma from '@/lib/prisma';
 import { statusNameMap } from '@/util/enum';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { name, description, link, status, users } = body;
@@ -21,12 +22,12 @@ export async function POST(request: Request) {
       },
     });
 
-    return Response.json(
+    return NextResponse.json(
       { data: task, message: `Atividade ${task.name} criada com sucesso!` },
       { status: 200 },
     );
   } catch {
-    return Response.json(
+    return NextResponse.json(
       { data: null, message: 'Falha ao cadastrar atividade' },
       { status: 400 },
     );
@@ -62,9 +63,9 @@ export async function GET() {
       })),
     }));
 
-    return Response.json({ data: newTask }, { status: 200 });
+    return NextResponse.json({ data: newTask }, { status: 200 });
   } catch {
-    return Response.json(
+    return NextResponse.json(
       { data: null, message: 'Falha ao consultar usuários' },
       { status: 400 },
     );
