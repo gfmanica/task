@@ -34,9 +34,26 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const { searchParams } = request.nextUrl;
+    const role = searchParams.get('role') || undefined;
+
+    const id = Number(searchParams.get('id')) || undefined;
+
+    const filterUser =
+      role === 'USER' && id
+        ? {
+            id: id,
+          }
+        : undefined;
+
     const task = await prisma.task.findMany({
+      where: {
+        users: {
+          some: filterUser,
+        },
+      },
       include: {
         users: {
           select: {
