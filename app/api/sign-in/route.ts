@@ -1,5 +1,5 @@
 import prisma from '@/lib/prisma';
-import { createSession, deleteSession } from '@/lib/session';
+import { createSession } from '@/lib/session';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
@@ -21,9 +21,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    await createSession(user);
+    const newUser = {
+      ...user,
+      role: {
+        id: user.role,
+        role: user.role === 'ADMINISTRATOR' ? 'Administrador' : 'Usuário',
+      },
+    };
+    
+    await createSession(newUser);
 
-    return NextResponse.json({ data: user, message: '' }, { status: 200 });
+    return NextResponse.json({ data: newUser, message: '' }, { status: 200 });
   } catch {
     return NextResponse.json(
       { data: null, message: 'Falha ao realizar o login' },

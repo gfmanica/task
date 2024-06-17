@@ -34,7 +34,7 @@ export function TaskTable() {
   const session = useSessionContext();
   const [rows, setRows] = useState<TTask[]>([]);
   const { isQuerying, onQuery } = useQuery<TTask[]>({
-    url: `/api/task?${new URLSearchParams({ role: session?.user?.role as string, id: session?.user?.id as string })}`,
+    url: `/api/task?${new URLSearchParams({ role: session?.user?.role?.id as string, id: session?.user?.id as string })}`,
     onSuccess: (data) => setRows(data),
   });
 

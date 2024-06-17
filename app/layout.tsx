@@ -24,7 +24,7 @@ export default async function RootLayout({
     <html lang="pt-br">
       <body className={`${inter.className}`}>
         <Providers session={session}>
-          <div className="flex min-h-dvh w-full flex-col">
+          <div className="min-w-dvw flex min-h-dvh flex-col">
             <Header />
 
             <main className="flex flex-1 flex-col gap-6 p-10">{children}</main>

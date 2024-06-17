@@ -3,6 +3,7 @@
 import { useSessionContext } from '@/provider/session-provider';
 import {
   Button,
+  Chip,
   Link,
   Navbar,
   NavbarContent,
@@ -16,36 +17,22 @@ import { LogOut } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { ExitModal } from './exit-modal';
+import { roleColorMap } from '@/util/enum';
+import { TUser } from '@/app/user/type';
 
 type TMenuItem = {
   name: string;
   route?: string;
+  click?: () => void;
   color: 'foreground' | 'danger';
 };
-
-const menuItems: TMenuItem[] = [
-  {
-    name: 'Atividades',
-    route: '/',
-    color: 'foreground',
-  },
-  {
-    name: 'Usuários',
-    route: '/user',
-    color: 'foreground',
-  },
-  {
-    name: 'Sair',
-    color: 'danger',
-  },
-];
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
   const isInvalidRoute = ['/sign-in', '/sign-up', '/doc'].includes(pathname);
   const session = useSessionContext();
-  const isAdministrator = session?.user?.role === 'ADMINISTRATOR';
+  const isAdministrator = session?.user?.role?.id === 'ADMINISTRATOR';
 
   const {
     isOpen: isOpenExit,
@@ -57,6 +44,27 @@ export default function Header() {
     return null;
   }
 
+  const menuItems: TMenuItem[] = [
+    {
+      name: 'Atividades',
+      route: '/',
+      color: 'foreground',
+    },
+    {
+      name: 'Sair',
+      color: 'danger',
+      click: onOpenExit,
+    },
+  ];
+
+  if (isAdministrator) {
+    menuItems.splice(1, 0, {
+      name: 'Usuários',
+      route: '/user',
+      color: 'foreground',
+    });
+  }
+
   return (
     <>
       <ExitModal isOpen={isOpenExit} onOpenChange={onOpenChangeExit} />
@@ -65,7 +73,7 @@ export default function Header() {
         <NavbarContent>
           <NavbarMenuToggle
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-            className="hidden"
+            className="sm:hidden"
           />
 
           <NavbarItem>
@@ -96,6 +104,20 @@ export default function Header() {
         </NavbarContent>
 
         <NavbarContent justify="end">
+          <NavbarItem className="gap-2">
+            <div className="text-sm">{session?.user?.name}</div>
+
+            <Chip
+              color={
+                roleColorMap[session?.user?.role?.id as TUser['role']['id']]
+              }
+              size="sm"
+              variant="flat"
+            >
+              {session?.user?.role?.role}
+            </Chip>
+          </NavbarItem>
+
           <NavbarItem>
             <Button
               color="danger"
@@ -116,6 +138,7 @@ export default function Header() {
                 className="w-full"
                 href={item.route}
                 color={item.color}
+                onClick={item.click}
               >
                 {item.name}
               </Link>
