@@ -3,6 +3,17 @@ import prisma from '@/lib/prisma';
 import { statusNameMap } from '@/util/enum';
 import { NextRequest, NextResponse } from 'next/server';
 
+/**
+ * @swagger
+ * /api/task/{id}:
+ *   get:
+ *     description: Retorna a atividade passada como parâmetro
+ *     responses:
+ *       200:
+ *         description: Atividade retornada com sucesso
+ *       400:
+ *        description: Falha ao retornar a atividade
+ */
 export async function GET(
   request: NextRequest,
   { params }: { params: { id: string } },
@@ -47,6 +58,17 @@ export async function GET(
   }
 }
 
+/**
+ * @swagger
+ * /api/task/{id}:
+ *   delete:
+ *     description: Excluir a atividade passada como parâmetro
+ *     responses:
+ *       200:
+ *         description: Atividade excluída com sucesso
+ *       400:
+ *        description: Falha ao excluir a atividade
+ */
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } },
@@ -68,6 +90,17 @@ export async function DELETE(
   }
 }
 
+/**
+ * @swagger
+ * /api/task/{id}:
+ *   put:
+ *     description: Atualiza a atividade passada como parâmetro
+ *     responses:
+ *       200:
+ *         description: Atividade atualizada com sucesso
+ *       400:
+ *        description: Falha ao atualizar a atividade
+ */
 export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } },

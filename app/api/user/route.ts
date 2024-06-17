@@ -1,7 +1,17 @@
 import prisma from '@/lib/prisma';
-import { createSession } from '@/lib/session';
 import { NextRequest, NextResponse } from 'next/server';
 
+/**
+ * @swagger
+ * /api/user:
+ *   post:
+ *     description: Cria um novo usuário
+ *     responses:
+ *       200:
+ *         description: Usuário cadastrado com sucesso
+ *       400:
+ *        description: Falha ao cadastrar usuário
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -39,6 +49,17 @@ export async function POST(request: NextRequest) {
   }
 }
 
+/**
+ * @swagger
+ * /api/user:
+ *   get:
+ *     description: Retorna a lista de usuários
+ *     responses:
+ *       200:
+ *         description: Usuários listados com sucesso
+ *       400:
+ *        description: Falha ao listar usuários
+ */
 export async function GET() {
   try {
     const user = await prisma.user.findMany();

@@ -43,7 +43,7 @@ const menuItems: TMenuItem[] = [
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
-  const isInvalidRoute = ['/sign-in', '/sign-up'].includes(pathname);
+  const isInvalidRoute = ['/sign-in', '/sign-up', '/doc'].includes(pathname);
   const session = useSessionContext();
   const isAdministrator = session?.user?.role === 'ADMINISTRATOR';
 

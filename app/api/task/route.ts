@@ -3,6 +3,17 @@ import prisma from '@/lib/prisma';
 import { statusNameMap } from '@/util/enum';
 import { NextRequest, NextResponse } from 'next/server';
 
+/**
+ * @swagger
+ * /api/task:
+ *   post:
+ *     description: Cria uma nova atividade
+ *     responses:
+ *       200:
+ *         description: Atividade criada com sucesso
+ *       400:
+ *        description: Falha ao criar a atividade
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -34,6 +45,17 @@ export async function POST(request: NextRequest) {
   }
 }
 
+/**
+ * @swagger
+ * /api/task:
+ *   get:
+ *     description: Retorna todas as atividades
+ *     responses:
+ *       200:
+ *         description: Atividades retornadas com sucesso
+ *       400:
+ *        description: Falha ao retornar as atividades
+ */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = request.nextUrl;

@@ -1,6 +1,17 @@
 import prisma from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 
+/**
+ * @swagger
+ * /api/user/{id}:
+ *   delete:
+ *     description: Exclui o usuário passado como parâmetro
+ *     responses:
+ *       200:
+ *         description: Usuários excluído com sucesso
+ *       400:
+ *        description: Falha ao excluir usuário
+ */
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } },
@@ -22,6 +33,17 @@ export async function DELETE(
   }
 }
 
+/**
+ * @swagger
+ * /api/user/{id}:
+ *   put:
+ *     description: Atualiza o usuário passado como parâmetro
+ *     responses:
+ *       200:
+ *         description: Usuários atualizado com sucesso
+ *       400:
+ *        description: Falha ao atualizar o usuário
+ */
 export async function PUT(
   request: NextRequest,
   { params }: { params: { id: string } },
