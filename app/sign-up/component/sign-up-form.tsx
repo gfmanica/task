@@ -88,9 +88,8 @@ export function SignUpForm() {
         color="primary"
         variant="shadow"
         isLoading={isMutating}
-        startContent={<Save size={20} />}
       >
-        Salvar
+        Cadastrar
       </Button>
     </form>
   );

@@ -69,7 +69,11 @@ export default function Header() {
     <>
       <ExitModal isOpen={isOpenExit} onOpenChange={onOpenChangeExit} />
 
-      <Navbar onMenuOpenChange={setIsMenuOpen} isBordered>
+      <Navbar
+        isMenuOpen={isMenuOpen}
+        onMenuOpenChange={setIsMenuOpen}
+        isBordered
+      >
         <NavbarContent>
           <NavbarMenuToggle
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
@@ -87,24 +91,8 @@ export default function Header() {
           </NavbarItem>
         </NavbarContent>
 
-        <NavbarContent justify="center">
-          <NavbarItem>
-            <Link color="foreground" href="/">
-              Atividades
-            </Link>
-          </NavbarItem>
-
-          {isAdministrator && (
-            <NavbarItem>
-              <Link color="foreground" href="/user">
-                Usuários
-              </Link>
-            </NavbarItem>
-          )}
-        </NavbarContent>
-
         <NavbarContent justify="end">
-          <NavbarItem className="gap-2">
+          <NavbarItem className="flex gap-2">
             <div className="text-sm">{session?.user?.name}</div>
 
             <Chip
@@ -117,17 +105,6 @@ export default function Header() {
               {session?.user?.role?.role}
             </Chip>
           </NavbarItem>
-
-          <NavbarItem>
-            <Button
-              color="danger"
-              variant="light"
-              startContent={<LogOut size={20} />}
-              onClick={onOpenExit}
-            >
-              Sair
-            </Button>
-          </NavbarItem>
         </NavbarContent>
 
         <NavbarMenu>
@@ -139,6 +116,7 @@ export default function Header() {
                 href={item.route}
                 color={item.color}
                 onClick={item.click}
+                onPress={() => setIsMenuOpen(false)}
               >
                 {item.name}
               </Link>
